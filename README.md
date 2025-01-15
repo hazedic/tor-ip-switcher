@@ -1,6 +1,14 @@
 # tor-ip-switcher
 > *This script is a CLI tool for interacting with the Tor network's control port to issue a NEWNYM signal, which requests a new IP address for the Tor client. It connects to the Tor control port, authenticates using a password (if provided), and repeatedly requests a new identity (IP) at a specified interval. The script logs the results in the terminal and can be used for scenarios requiring IP rotation through the Tor network.*
 
+## Prerequisites
+
+Before running the script, you must first install the stem library using the pip command:
+
+```sh
+pip install --user stem
+```
+
 ## Usage
 
 If the ControlPort 9051 and HashedControlPassword are not set in your torrc file, you can either provide the password as a command-line argument (--passwd "your_password") or set it in the torrc file for persistent configuration.
@@ -9,7 +17,7 @@ If the ControlPort 9051 and HashedControlPassword are not set in your torrc file
 If you prefer to pass the password directly when running the script, you can use the --passwd argument as shown below:
 
 ```sh
-$ python tor-ip-switcher.py --host localhost --port 9051 --passwd "your_password" --interval 30
+$ sudo env "PATH=$PATH" "PYTHONUSERBASE=/home/kali/.local" python tor-ip-switcher.py --host 127.0.0.1 --port 9051 --passwd "your_password" --interval 30
 ```
 
 ### Option 2: Configuring the Password in torrc
@@ -26,7 +34,7 @@ HashedControlPassword <hashed_password>
 
 ```sh
 # This will output the hashed password, which you can then copy and paste into your torrc file.
-tor --hash-password "your_password"
+tor --hash-password 'your_password'
 ```
 
 3. After making these changes, restart the Tor service to apply the new settings:
